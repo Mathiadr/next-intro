@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 
-const data: Character[] = [
+export let data: Character[] = [
     {
         id: "1",
         name: "Grug",
@@ -47,11 +47,12 @@ export function DELETE(
 
 }
 
+/*
 export const updateData = async(id: string) => {
     try {
       const response = await fetch("/api/characters/1", {
         method: "put",
-        body: JSON.stringify({ /* here */}),
+        body: JSON.stringify({}),
         headers: {
             "Content-Type": "application/json"
         }
@@ -62,3 +63,4 @@ export const updateData = async(id: string) => {
         return "Bad request"
     }
   }
+*/
