@@ -13,6 +13,10 @@ export function Navigation(){
     {
         label: "Characters",
         href: "/characters"
+    },
+    {
+        label: "Create New Character",
+        href: "/create"
     }]
 
 

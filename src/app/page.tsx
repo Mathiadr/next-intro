@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image'
-import { Navigation } from './Navigation'
+import { Navigation } from '../components/Navigation'
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
         <Navigation />
       </header>
       <main className="text-4xl font-bold text-center mt-8">
-        <h1>Velkommen!</h1>
+        <h1>Welcome!</h1>
       </main>
     </div>
   )

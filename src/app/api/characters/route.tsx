@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest, NextResponse } from "next/server"
 
 export let data: Character[] = [
@@ -36,7 +37,9 @@ export function GET() {
 }
 
 export async function POST(request: NextRequest) {
-    const data = await request.json()
+    const newData = (await request.json()) as Character
+    data.push(newData)
+    console.log(`Received and pushed CharacterId ${newData.id} to array`)
     return NextResponse.json(data, { status: 200 })
 }
 
@@ -45,6 +48,10 @@ export function DELETE(
     { params }: { params: {id: string} }
 ){
 
+}
+
+export function replaceData(newData: Character[]) {
+    data = newData
 }
 
 /*

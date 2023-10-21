@@ -1,9 +1,11 @@
 "use client"
 import { useCharacter } from "@/features/useCharacter";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { Navigation } from "../../components/Navigation";
+import { useRouter } from "next/navigation";
 
 
-let createNewCharacter: Character = {
+const newCharacter: Character = {
     id: "",
     name: "",
     level: 0,
@@ -11,28 +13,10 @@ let createNewCharacter: Character = {
     def: 0
 }
 
-
-
-export default function CharacterForm(id?: string){
-    const [formData, setFormData] = useState<Character>(createNewCharacter)
-    const {saveCharacter, getCharacter, characters} = useCharacter()
-
-    useEffect(() => {
-        id = "1" // Hardcoded because I failed to translate the parameter to a string...
-        fetchOrCreateNew()
-    },[])
-
-    const fetchOrCreateNew = async() => {
-        id ? "" : id = `${characters.length+1}`
-        try {
-            const result = (await getCharacter(id)) as Character
-            result ? setFormData(result) : setFormData({ ...formData, id: id })
-            setFormData(result)
-        } catch (error) {
-            createNewCharacter.id = id
-            setFormData(createNewCharacter)
-        }
-    }
+export default function CreateCharacterPage(){
+    const [formData, setFormData] = useState<Character>(newCharacter)
+    const {postCharacter, characters} = useCharacter()
+    const router = useRouter()
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -41,7 +25,8 @@ export default function CharacterForm(id?: string){
       
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        saveCharacter(formData)
+        postCharacter(formData)
+        router.push("/characters")
     }
       
     const inputFieldStyle = "mt-1 p-2 w-full rounded-md border border-gray-300 focus:ring focus:ring-blue-200 focus:outline-none"
@@ -49,27 +34,14 @@ export default function CharacterForm(id?: string){
 
     return (
         <div>
+            <Navigation />
             <form onSubmit={handleSubmit} className="p-10">
             <div className="mb-4">
-                <label htmlFor="id" className={labelStyle}>
-                Id
-                </label>
-                <input
-                type="text"
-                id="id"
-                name="id"
-                value={formData.id}
-                onChange={handleChange}
-                readOnly
-                disabled
-                className={`${inputFieldStyle} bg-gray-100`}
-                />
-            </div>
-            <div className="mb-4">
                 <label htmlFor="name" className={labelStyle}>
-                Name
+                    Name
                 </label>
                 <input
+                required
                 type="text"
                 id="name"
                 name="name"
@@ -80,7 +52,7 @@ export default function CharacterForm(id?: string){
             </div>
             <div className="mb-4">
                 <label htmlFor="level" className={labelStyle}>
-                Level
+                    Level
                 </label>
                 <input
                 type="number"
@@ -93,7 +65,7 @@ export default function CharacterForm(id?: string){
             </div>
             <div className="mb-4">
                 <label htmlFor="atk" className={labelStyle}>
-                Attack
+                    Attack
                 </label>
                 <input
                 type="number"
@@ -106,7 +78,7 @@ export default function CharacterForm(id?: string){
             </div>
             <div className="mb-4">
                 <label htmlFor="def" className={labelStyle}>
-                Defense
+                    Defense
                 </label>
                 <input
                 type="number"
@@ -120,16 +92,10 @@ export default function CharacterForm(id?: string){
             <div className="flex gap-4 flex-row">
                 <button
                 type="submit"
-                className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 hover:text-yellow-300 focus:outline-none">
-                Save
-                </button>
-                <button
-                type="submit"
-                className="bg-red-500 text-white p-2 rounded-md hover:bg-red-700 hover:text-yellow-300 focus:outline-none">
-                Delete
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:text-yellow-300">
+                    Save
                 </button>
             </div>
-            
         </form>
         </div>
         
