@@ -16,14 +16,14 @@ export async function PUT(
   { params }: { params: { id: string } },
 ) {
   const body = (await request.json()) as Character
-  const questionIndex = data.findIndex((item) => item.id === params.id)
+  const characterIndex = data.findIndex((item) => item.id === params.id)
   const newData = [
-    ...data.slice(0, questionIndex),
-    { ...data[questionIndex], body },
-    ...data.slice(questionIndex + 1),
+    ...data.slice(0, characterIndex),
+    {...body},
+    ...data.slice(characterIndex + 1),
   ]
   replaceData(newData)
-  return NextResponse.json({ data: { params, data, body } }, { status: 200 })
+  return NextResponse.json(body, { status: 200 })
 }
 
 export function DELETE(
