@@ -22,6 +22,7 @@ export async function PUT(
     {...body},
     ...data.slice(characterIndex + 1),
   ]
+  console.log(newData)
   replaceData(newData)
   return NextResponse.json(body, { status: 200 })
 }
