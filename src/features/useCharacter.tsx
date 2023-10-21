@@ -19,7 +19,7 @@ export function useCharacter(){
         }
         return `${id}`
     }
-    
+
     const handleGetCharacters = async () => {
         const response = await fetch("/api/characters",{
             method: "GET"
@@ -61,8 +61,21 @@ export function useCharacter(){
         }
     }
 
-    const updateCharacter = () => {
-
+    const handleUpdateCharacter = async(id: string, characterData: Character) => {
+        console.log(`Updating characterId: ${characterData.id}`)
+        try {
+            const response = await fetch(`/api/characters/${id}`,{
+                method: "PUT",
+                body: JSON.stringify(characterData),
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+            })
+            const result = await response.json()
+            return result
+        } catch (error) {
+            return JSON.stringify(error)
+        }
     }
 
     const handleDeleteCharacter = async (id: string) => {
@@ -88,6 +101,7 @@ export function useCharacter(){
         getCharacters: handleGetCharacters,
         getCharacterById: handleGetCharacterById,
         postCharacter: handlePostCharacter,
-        deleteCharacter: handleDeleteCharacter,
+        updateCharacter: handleUpdateCharacter,
+        deleteCharacter: handleDeleteCharacter
     }
 }
